@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.DirectoryServices.ActiveDirectory;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -28,7 +29,7 @@ namespace Medicaments
                 connection.Open();
 
                 //Requête
-                string query = "SELECT medicament.designation, medicament.marque, medicament.concentration, medicament.type, medicament.Prix FROM medicament LIMIT 10";
+                string query = "SELECT medicament.designation, medicament.marque, medicament.concentration, medicament.type, medicament.Prix FROM medicament LIMIT 30";
 
                 //Récuépération des données utilisateurs
                 using (MySqlCommand command = new MySqlCommand(query, connection))
@@ -61,6 +62,12 @@ namespace Medicaments
                 comboBox_panier.Items.Add(selected_medic);
                 comboBox_choix.Text = "";
                 comboBox_choix.SelectedIndex = -1;
+
+                txtDesignation.Text = "Designation : ";
+                txtMarque.Text = "Marque : ";
+                txtConcentration.Text = "Concentration : ";
+                txtType.Text = "Type : ";
+                txtPrix.Text = "Prix : ";
             }
         }
 
@@ -120,6 +127,36 @@ namespace Medicaments
         private void ButtonDeco_Click(object sender, EventArgs e)
         {
             Application.Exit();     
+        }
+
+        private void comboBox_choix_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(comboBox_choix.SelectedItem != null)
+            {
+                int index = 0;
+                string[] result = Regex.Split(comboBox_choix.SelectedItem.ToString(), @";");
+                string designation = result[0];
+                index = 15;
+                string trueDesignation = designation.Substring(index);
+                string marque = result[1];
+                index = 11;
+                string trueMarque = marque.Substring(index);
+                string concentration = result[2];
+                index = 18;
+                string trueConc = concentration.Substring(index);
+                string type = result[3];
+                index = 9;
+                string trueType = type.Substring(index);
+                string prix = result[4];
+                index = 9;
+                string truePrix = prix.Substring(index);
+
+                txtDesignation.Text = "Designation : " + trueDesignation;
+                txtMarque.Text = "Marque : " + trueMarque;
+                txtConcentration.Text = "Concentration : " + trueConc;
+                txtType.Text = "Type : " + trueType;
+                txtPrix.Text = "Prix : " + truePrix;
+            }
         }
     }
 }

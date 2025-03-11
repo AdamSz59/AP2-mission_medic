@@ -39,6 +39,11 @@
             this.prixFinal = new System.Windows.Forms.Label();
             this.ButtonDeco = new System.Windows.Forms.Button();
             this.idUtilisateur = new System.Windows.Forms.Label();
+            this.txtDesignation = new System.Windows.Forms.Label();
+            this.txtMarque = new System.Windows.Forms.Label();
+            this.txtConcentration = new System.Windows.Forms.Label();
+            this.txtType = new System.Windows.Forms.Label();
+            this.txtPrix = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label_titre
@@ -57,6 +62,7 @@
             this.comboBox_choix.Name = "comboBox_choix";
             this.comboBox_choix.Size = new System.Drawing.Size(313, 23);
             this.comboBox_choix.TabIndex = 1;
+            this.comboBox_choix.SelectedIndexChanged += new System.EventHandler(this.comboBox_choix_SelectedIndexChanged);
             // 
             // button_add
             // 
@@ -142,11 +148,61 @@
             this.idUtilisateur.TabIndex = 10;
             this.idUtilisateur.Text = "Connecté en tant que : ";
             // 
+            // txtDesignation
+            // 
+            this.txtDesignation.AutoSize = true;
+            this.txtDesignation.Location = new System.Drawing.Point(24, 100);
+            this.txtDesignation.Name = "txtDesignation";
+            this.txtDesignation.Size = new System.Drawing.Size(79, 15);
+            this.txtDesignation.TabIndex = 11;
+            this.txtDesignation.Text = "Designation : ";
+            // 
+            // txtMarque
+            // 
+            this.txtMarque.AutoSize = true;
+            this.txtMarque.Location = new System.Drawing.Point(24, 126);
+            this.txtMarque.Name = "txtMarque";
+            this.txtMarque.Size = new System.Drawing.Size(57, 15);
+            this.txtMarque.TabIndex = 12;
+            this.txtMarque.Text = "Marque : ";
+            // 
+            // txtConcentration
+            // 
+            this.txtConcentration.AutoSize = true;
+            this.txtConcentration.Location = new System.Drawing.Point(24, 153);
+            this.txtConcentration.Name = "txtConcentration";
+            this.txtConcentration.Size = new System.Drawing.Size(92, 15);
+            this.txtConcentration.TabIndex = 13;
+            this.txtConcentration.Text = "Concentration : ";
+            // 
+            // txtType
+            // 
+            this.txtType.AutoSize = true;
+            this.txtType.Location = new System.Drawing.Point(24, 178);
+            this.txtType.Name = "txtType";
+            this.txtType.Size = new System.Drawing.Size(40, 15);
+            this.txtType.TabIndex = 14;
+            this.txtType.Text = "Type : ";
+            // 
+            // txtPrix
+            // 
+            this.txtPrix.AutoSize = true;
+            this.txtPrix.Location = new System.Drawing.Point(24, 205);
+            this.txtPrix.Name = "txtPrix";
+            this.txtPrix.Size = new System.Drawing.Size(36, 15);
+            this.txtPrix.TabIndex = 15;
+            this.txtPrix.Text = "Prix : ";
+            // 
             // form_panier
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.txtPrix);
+            this.Controls.Add(this.txtType);
+            this.Controls.Add(this.txtConcentration);
+            this.Controls.Add(this.txtMarque);
+            this.Controls.Add(this.txtDesignation);
             this.Controls.Add(this.idUtilisateur);
             this.Controls.Add(this.ButtonDeco);
             this.Controls.Add(this.prixFinal);
@@ -178,5 +234,10 @@
         private Label prixFinal;
         private Button ButtonDeco;
         private Label idUtilisateur;
+        private Label txtDesignation;
+        private Label txtMarque;
+        private Label txtConcentration;
+        private Label txtType;
+        private Label txtPrix;
     }
 }
