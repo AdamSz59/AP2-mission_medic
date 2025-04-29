@@ -69,6 +69,8 @@ namespace Medicaments
                 txtType.Text = "Type : ";
                 txtPrix.Text = "Prix : ";
             }
+
+            CalculPrix();
         }
 
         private void button_delete_Click(object sender, EventArgs e)
@@ -80,9 +82,16 @@ namespace Medicaments
                 comboBox_panier.Text = "";
                 comboBox_panier.SelectedIndex = -1;
             }
+
+            CalculPrix();
         }
 
         private void button_valider_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void CalculPrix()
         {
             double prixTot = 0;
 
@@ -126,7 +135,9 @@ namespace Medicaments
 
         private void ButtonDeco_Click(object sender, EventArgs e)
         {
-            Application.Exit();     
+            StockTemp.codePrati = "";
+            StockTemp.idUtili = "";
+            this.Close();
         }
 
         private void comboBox_choix_SelectedIndexChanged(object sender, EventArgs e)
