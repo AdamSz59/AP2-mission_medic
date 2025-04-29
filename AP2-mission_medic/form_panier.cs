@@ -29,7 +29,7 @@ namespace Medicaments
                 connection.Open();
 
                 //Requête
-                string query = "SELECT medicament.designation, medicament.marque, medicament.concentration, medicament.type, medicament.Prix FROM medicament LIMIT 30";
+                string query = "SELECT medicament.id, medicament.designation, medicament.marque, medicament.concentration, medicament.type, medicament.Prix FROM medicament LIMIT 30";
 
                 //Récuépération des données utilisateurs
                 using (MySqlCommand command = new MySqlCommand(query, connection))
@@ -40,13 +40,14 @@ namespace Medicaments
                     {
                         while (reader.Read())
                         {
-                            string designation = reader.GetString(0);
-                            string marque = reader.GetString(1);
-                            string concentration = reader.GetString(2);
-                            string type = reader.GetString(3);
-                            double prix = reader.GetDouble(4);
+                            int idMed = reader.GetInt32(0);
+                            string designation = reader.GetString(1);
+                            string marque = reader.GetString(2);
+                            string concentration = reader.GetString(3);
+                            string type = reader.GetString(4);
+                            double prix = reader.GetDouble(5);
 
-                            Medicaments medic = new Medicaments(designation, marque, concentration, type, prix);
+                            Medicaments medic = new Medicaments(idMed, designation, marque, concentration, type, prix);
                             comboBox_choix.Items.Add(medic.ToString());
                         }
                     }
@@ -88,7 +89,44 @@ namespace Medicaments
 
         private void button_valider_Click(object sender, EventArgs e)
         {
-            
+            //Vérification du panier et insertion de ce dernier dans la base de données
+            if (comboBox_panier.Items.Count != 0)
+            {
+                MessageBox.Show($"Panier validé", "Validé", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+               //On va insérer dans la BDD le numéro du panier et l'utilisateur qui le concerne
+                
+                string connectionString = "Server=172.22.48.38;Database=gsb_praticienCompletee;User Id=admin;Password=admin;";
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    // Ouvrir la connexion
+                    connection.Open();
+
+                    //Requête
+                    string query = "INSERT INTO panier VALUES (0,@idUser)";
+
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@idPUser", Convert.ToInt32(StockTemp.idUtili));
+                    }
+                }
+
+               foreach (String str in comboBox_panier.Items)
+                {
+                    string[] result = Regex.Split(str.ToString(), @";");
+                    string idMed = result[0];
+                    int index = 9;
+                    string trueIdMed = idMed.Substring(index);
+                    int idMedInt = Convert.ToInt32(trueIdMed);
+                    MessageBox.Show(idMedInt.ToString());
+
+                }
+
+            }
+            else
+            {
+                MessageBox.Show($"Panier vide", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void CalculPrix()
@@ -98,7 +136,7 @@ namespace Medicaments
             foreach (var item in comboBox_panier.Items)
             {
                 string[] result = Regex.Split(item.ToString(), @";");
-                string prix = result[4];
+                string prix = result[5];
                 int index = 9;
                 string truePrix = prix.Substring(index);
                 double prixDouble = Convert.ToDouble(truePrix);
@@ -146,19 +184,19 @@ namespace Medicaments
             {
                 int index = 0;
                 string[] result = Regex.Split(comboBox_choix.SelectedItem.ToString(), @";");
-                string designation = result[0];
+                string designation = result[1];
                 index = 15;
                 string trueDesignation = designation.Substring(index);
-                string marque = result[1];
+                string marque = result[2];
                 index = 11;
                 string trueMarque = marque.Substring(index);
-                string concentration = result[2];
+                string concentration = result[3];
                 index = 18;
                 string trueConc = concentration.Substring(index);
-                string type = result[3];
+                string type = result[4];
                 index = 9;
                 string trueType = type.Substring(index);
-                string prix = result[4];
+                string prix = result[5];
                 index = 9;
                 string truePrix = prix.Substring(index);
 

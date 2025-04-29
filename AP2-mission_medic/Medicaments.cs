@@ -8,14 +8,16 @@ namespace Medicaments
 {
     public class Medicaments
     {
+        public int idMed { get; set; }
         public string designation { get; set; }
         public string marque { get; set; }
         public string concentration { get; set; }
         public string type { get; set; }
         public double prix { get; set; }
 
-        public Medicaments(string designation, string marque, string concentration, string type, double prix)
+        public Medicaments(int idMed, string designation, string marque, string concentration, string type, double prix)
         {
+            this.idMed = idMed;
             this.designation = designation;
             this.marque = marque;
             this.concentration = concentration;
@@ -25,7 +27,7 @@ namespace Medicaments
 
         public override string ToString()
         {
-            string rtr = "[Designation]: " + this.designation + " ; " + " [Marque]: " + this.marque + " ; " + " [Concentration]: " + this.concentration + " ; " + " [Type]: " + this.type + " ; " + " [Prix]: " + this.prix;
+            string rtr = "[idMed]: " + this.idMed  + " ; " +  " [Designation]: " + this.designation + " ; " + " [Marque]: " + this.marque + " ; " + " [Concentration]: " + this.concentration + " ; " + " [Type]: " + this.type + " ; " + " [Prix]: " + this.prix;
             return rtr; 
         }
     }
