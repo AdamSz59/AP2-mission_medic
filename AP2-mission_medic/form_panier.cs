@@ -94,7 +94,7 @@ namespace Medicaments
             {
                 MessageBox.Show($"Panier validé", "Validé", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-               //On va insérer dans la BDD le numéro du panier et l'utilisateur qui le concerne
+                //On va insérer dans la BDD le numéro du panier et l'utilisateur qui le concerne
                 
                 string connectionString = "Server=172.22.48.38;Database=gsb_praticienCompletee;User Id=admin;Password=admin;";
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -107,19 +107,62 @@ namespace Medicaments
 
                     using (MySqlCommand command = new MySqlCommand(query, connection))
                     {
-                        command.Parameters.AddWithValue("@idPUser", Convert.ToInt32(StockTemp.idUtili));
+                        command.Parameters.AddWithValue("@idUser", Convert.ToInt32(StockTemp.idUtili));
+                        command.ExecuteNonQuery();
                     }
                 }
 
-               foreach (String str in comboBox_panier.Items)
+                //On récupère l'id du panier associé à l'user afin d'y insérer les médics
+
+                int idPanierInt = 0;
+
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    // Ouvrir la connexion
+                    connection.Open();
+
+                    //Requête
+                    string idPanier = "SELECT idPanier FROM panier WHERE panier.idPra = @codePra";
+
+                    using (MySqlCommand command = new MySqlCommand(idPanier, connection))
+                    {
+                        command.Parameters.AddWithValue("@codePra", StockTemp.idUtili);
+                        command.ExecuteNonQuery();
+
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                idPanierInt = reader.GetInt32(0);
+                            }
+                        }
+                    }                   
+                }
+
+                //Pour chaque médicament dans le panier de l'application, on récupère son id afin de l'enregistrer dans un panier dans la BDD
+                foreach (String str in comboBox_panier.Items)
                 {
                     string[] result = Regex.Split(str.ToString(), @";");
                     string idMed = result[0];
                     int index = 9;
                     string trueIdMed = idMed.Substring(index);
                     int idMedInt = Convert.ToInt32(trueIdMed);
-                    MessageBox.Show(idMedInt.ToString());
 
+                    using (MySqlConnection connection = new MySqlConnection(connectionString))
+                    {
+                        // Ouvrir la connexion
+                        connection.Open();
+
+                        //Requête
+                        string query = "INSERT INTO medpanier VALUES (@idPanier,@idMed)";
+
+                        using (MySqlCommand command = new MySqlCommand(query, connection))
+                        {
+                            command.Parameters.AddWithValue("@idPanier", idPanierInt);
+                            command.Parameters.AddWithValue("@idMed", idMedInt);
+                            command.ExecuteNonQuery();
+                        }
+                    }
                 }
 
             }
